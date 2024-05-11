@@ -1,0 +1,54 @@
+### PIPEX EXECUTION EXAMPLES
+
+## CORRECT TESTS
+
+./pipex infile "cat" "wc -w" outfile
+./pipex infile "ls -l" "wc -l" outfile
+./pipex Makefile "grep LIBFT" "cat" outfile
+./pipex infile "ls" "wc" outfile
+./pipex .gitignore "tr a b" "tr b c" outfile
+./pipex .gitignore "ping -c 1 google.com" "grep ms" outfile
+
+## INCORRECT TESTS
+./pipex infile.txt "cat" outfile.txt "wc -w"
+./pipex a b
+./pipex a b c d e
+chmod 000 infile.txt / outfile.txt y cualquier test correcto
+
+## BASIC TESTS
+
+# Test 1 - Should create the file
+./pipex noexiste "grep hello" "wc" output
+< noexiste grep helo | wc > output
+
+# Test 2
+./pipex input "ls" "ls" output
+< input ls | ls > output
+
+# Test 3
+./pipex input "grep hello" "wc" output
+< input grep hello | wc > output
+
+# Test 4 - Should wait sleep
+./pipex noexiste "grep hello" "sleep 3" output
+< noexiste grep hello | sleep 3 > output
+
+# Test 5 - Should wait sleep
+./pipex input "grep hello" "sleep 3" output
+< input grep hello | sleep 3 > output
+
+# Test 6 - Should not wait sleep
+./pipex noexiste "sleep 3" "ls" output
+ < noexiste sleep 3 | ls > output
+
+# Test 7 - Should wait sleep
+./pipex input "sleep 3" "ls" output
+< noexiste sleep 3 | ls > output
+
+# Test 8 
+./pipex /dev/urandom "cat" "head" out
+< /dev/urandom cat | head > out
+
+## LEAKS
+make debug
+valgrind --leak-check=full ./pipex infile.txt "ls" "wc" outfile.txt
