@@ -6,11 +6,12 @@
 #    By: lgandari <lgandari@student.42madrid.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/03 15:20:42 by lgandari          #+#    #+#              #
-#    Updated: 2024/05/11 23:15:52 by lgandari         ###   ########.fr        #
+#    Updated: 2024/05/11 23:36:08 by lgandari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME    = pipex
+BONUS_NAME = pipex_bonus
 
 RED		=	\033[0;31m
 GREEN	=	\033[0;32m
@@ -48,10 +49,15 @@ $(NAME): $(OBJ)
 	@$(CC) $(OBJ) -L$(LIBFT_PATH) -lft_v2 -o $(NAME)
 	@echo "$(GREEN)Compiling pipex...$(NC)"
 
+$(BONUS_NAME): $(BONUS_OBJ)
+	@$(MAKE) -C $(LIBFT_PATH)
+	@$(CC) $(BONUS_OBJ) -L $(LIBFT_PATH) -lft_v2 -o $(BONUS_NAME)
+	@echo "$(GREEN)Compiling pipex bonus...$(NC)"
+
 all: $(LIBFT) $(NAME)
 
-bonus: $(LIBFT) $(BONUS_OBJ)
-	@$(CC) $(BONUS_OBJ) -L$(LIBFT_PATH) -lft_v2 -o $(NAME)
+bonus: $(BONUS_OBJ) $(LIBFT)
+	@$(CC) $(BONUS_OBJ) -L$(LIBFT_PATH) -lft_v2 -o $(BONUS_NAME)
 	@echo "$(GREEN)Compiling pipex bonus...$(NC)"
 
 clean:
