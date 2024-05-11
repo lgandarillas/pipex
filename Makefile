@@ -6,7 +6,7 @@
 #    By: lgandari <lgandari@student.42madrid.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/03 15:20:42 by lgandari          #+#    #+#              #
-#    Updated: 2024/05/11 23:11:49 by lgandari         ###   ########.fr        #
+#    Updated: 2024/05/11 23:13:55 by lgandari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,14 +43,12 @@ $(OBJ_DIR)%.o: $(BONUS_DIR)%.c
 	@mkdir -p $(OBJ_DIR)
 	@$(CC) $(CFLAGS) $(INCS) -c $< -o $@
 
-
+$(LIBFT):
+	@$(MAKE) -C $(LIBFT_PATH)
 
 $(NAME): $(OBJ)
 	@$(CC) $(OBJ) -L$(LIBFT_PATH) -lft_v2 -o $(NAME)
 	@echo "$(GREEN)Compiling pipex...$(NC)"
-
-$(LIBFT):
-	@$(MAKE) -C $(LIBFT_PATH)
 
 all: $(LIBFT) $(NAME)
 
