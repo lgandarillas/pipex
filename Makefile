@@ -6,7 +6,7 @@
 #    By: lgandari <lgandari@student.42madrid.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/03 15:20:42 by lgandari          #+#    #+#              #
-#    Updated: 2024/05/03 21:23:33 by lgandari         ###   ########.fr        #
+#    Updated: 2024/05/11 23:11:49 by lgandari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,11 +17,14 @@ GREEN	=	\033[0;32m
 NC		=	\033[0m 
 
 SRC_DIR = src/
+BONUS_DIR = src_bonus/
 OBJ_DIR = obj/
 INC_DIR = inc/
 
-SRC     = $(addprefix $(SRC_DIR), main.c execute_command.c here_doc.c)
+SRC     = $(addprefix $(SRC_DIR), main.c execute_command.c)
+BONUS_SRC = $(addprefix $(BONUS_DIR), main.c execute_command.c here_doc.c)
 OBJ     = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
+BONUS_OBJ = $(BONUS_SRC:$(BONUS_DIR)%.c=$(OBJ_DIR)%.o)
 
 LIBFT	= libft_v2//libft_v2.a
 LIBFT_PATH	= libft_v2/
@@ -36,7 +39,11 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(OBJ_DIR)
 	@$(CC) $(CFLAGS) $(INCS) -c $< -o $@
 
-all: $(LIBFT) $(NAME)
+$(OBJ_DIR)%.o: $(BONUS_DIR)%.c
+	@mkdir -p $(OBJ_DIR)
+	@$(CC) $(CFLAGS) $(INCS) -c $< -o $@
+
+
 
 $(NAME): $(OBJ)
 	@$(CC) $(OBJ) -L$(LIBFT_PATH) -lft_v2 -o $(NAME)
@@ -44,6 +51,12 @@ $(NAME): $(OBJ)
 
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_PATH)
+
+all: $(LIBFT) $(NAME)
+
+bonus: $(LIBFT) $(BONUS_OBJ)
+	@$(CC) $(BONUS_OBJ) -L$(LIBFT_PATH) -lft_v2 -o $(NAME)
+	@echo "$(GREEN)Compiling pipex bonus...$(NC)"
 
 clean:
 	@$(RM) -rf $(OBJ_DIR)
