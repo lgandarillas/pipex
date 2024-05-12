@@ -6,7 +6,7 @@
 #    By: lgandari <lgandari@student.42madrid.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/03 15:20:42 by lgandari          #+#    #+#              #
-#    Updated: 2024/05/12 18:22:37 by lgandari         ###   ########.fr        #
+#    Updated: 2024/05/12 18:27:11 by lgandari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,12 +17,12 @@ RED	= \033[0;31m
 GREEN	= \033[0;32m
 NC	= \033[0m 
 
-CFLAGS = -Wall -Werror -Wextra -g3 #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address
 CC = cc
 RM = rm -f
 
 LIBFT	= libft_v2//libft_v2.a
-LIBFT_PATH	= libft_v2/ # NOT USED
+LIBFT_PATH	= libft_v2/
 
 SRC_DIR = src/
 BONUS_DIR = src_bonus/
@@ -40,13 +40,13 @@ all : $(NAME)
 bonus : $(NAME_BONUS)
 
 $(NAME) : $(OBJS)
-	@make all -sC ./libft_v2/
+	@make all -sC $(LIBFT_PATH)
 	@echo "$(GREEN)Compiling Libft.$(NC)"
 	@$(CC) $(CFLAGS) $(OBJS) -I ../../inc/pipex.h $(LIBFT) -o $(NAME)
 	@echo "$(GREEN)Pipex Compiled.$(NC)"
 
 $(NAME_BONUS) : $(OBJS_BONUS)
-	@make all -sC ./libft_v2
+	@make all -sC $(LIBFT_PATH)
 	@echo "$(GREEN)Compiling Libft.$(NC)"
 	@$(CC) $(CFLAGS) $(OBJS_BONUS) -I ../../inc/pipex.h $(LIBFT) -o $(NAME_BONUS)
 	@echo "$(GREEN)Pipex Bonus Compiled.$(NC)"
@@ -54,7 +54,7 @@ $(NAME_BONUS) : $(OBJS_BONUS)
 clean:
 	@$(RM) $(OBJS)
 	@$(RM) $(OBJS_BONUS)
-	@make clean -sC libft_v2
+	@make clean -sC $(LIBFT_PATH)
 	@echo "$(RED)All Objs Deleted.$(NC)"
 
 fclean: clean
