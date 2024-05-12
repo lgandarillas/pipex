@@ -6,7 +6,7 @@
 #    By: lgandari <lgandari@student.42madrid.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/03 15:20:42 by lgandari          #+#    #+#              #
-#    Updated: 2024/05/12 18:27:11 by lgandari         ###   ########.fr        #
+#    Updated: 2024/05/12 18:33:45 by lgandari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ RED	= \033[0;31m
 GREEN	= \033[0;32m
 NC	= \033[0m 
 
-CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra #-g3 -fsanitize=address
 CC = cc
 RM = rm -f
 
@@ -26,8 +26,6 @@ LIBFT_PATH	= libft_v2/
 
 SRC_DIR = src/
 BONUS_DIR = src_bonus/
-OBJ_DIR = obj/ # NOT USED
-INC_DIR = inc/ # NOT USED
 
 SRCS	= $(addprefix $(SRC_DIR), main.c execute_command.c)
 SRCS_BONUS = $(addprefix $(BONUS_DIR), main.c execute_command.c here_doc.c)
@@ -41,15 +39,13 @@ bonus : $(NAME_BONUS)
 
 $(NAME) : $(OBJS)
 	@make all -sC $(LIBFT_PATH)
-	@echo "$(GREEN)Compiling Libft.$(NC)"
 	@$(CC) $(CFLAGS) $(OBJS) -I ../../inc/pipex.h $(LIBFT) -o $(NAME)
-	@echo "$(GREEN)Pipex Compiled.$(NC)"
+	@echo "$(GREEN)Compiling pipex...$(NC)"
 
 $(NAME_BONUS) : $(OBJS_BONUS)
 	@make all -sC $(LIBFT_PATH)
-	@echo "$(GREEN)Compiling Libft.$(NC)"
 	@$(CC) $(CFLAGS) $(OBJS_BONUS) -I ../../inc/pipex.h $(LIBFT) -o $(NAME_BONUS)
-	@echo "$(GREEN)Pipex Bonus Compiled.$(NC)"
+	@echo "$(GREEN)Compiling pipex bonus...$(NC)"
 
 clean:
 	@$(RM) $(OBJS)
@@ -66,55 +62,4 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
-
-### OLD ########################################################################
-
-#OBJ     = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
-#BONUS_OBJ = $(BONUS_SRC:$(BONUS_DIR)%.c=$(OBJ_DIR)%.o)
-#
-#CC      = gcc
-#CFLAGS  = -Wall -Wextra -Werror
-#DFLAGS	= -fsanitize=address -g3
-#RM      = rm -f
-#INCS    = -I $(INC_DIR)
-#
-#$(OBJ_DIR)%.o: $(SRC_DIR)%.c
-#	@mkdir -p $(OBJ_DIR)
-#	@$(CC) $(CFLAGS) $(INCS) -c $< -o $@
-#
-#$(OBJ_DIR)%.o: $(BONUS_DIR)%.c
-#	@mkdir -p $(OBJ_DIR)
-#	@$(CC) $(CFLAGS) $(INCS) -c $< -o $@
-#
-#$(NAME): $(OBJ)
-#	@$(MAKE) -C $(LIBFT_PATH)
-#	@$(CC) $(OBJ) -L$(LIBFT_PATH) -lft_v2 -o $(NAME)
-#	@echo "$(GREEN)Compiling pipex...$(NC)"
-#
-#$(BONUS_NAME): $(BONUS_OBJ)
-#	@$(MAKE) -C $(LIBFT_PATH)
-#	@$(CC) $(BONUS_OBJ) -L $(LIBFT_PATH) -lft_v2 -o $(BONUS_NAME)
-#	@echo "$(GREEN)Compiling pipex bonus...$(NC)"
-#
-#all: $(LIBFT) $(NAME)
-#
-#bonus: $(BONUS_OBJ) $(LIBFT)
-#	@$(CC) $(BONUS_OBJ) -L$(LIBFT_PATH) -lft_v2 -o $(BONUS_NAME)
-#	@echo "$(GREEN)Compiling pipex bonus...$(NC)"
-#
-#clean:
-#	@$(RM) -rf $(OBJ_DIR)
-#	@$(MAKE) clean -C $(LIBFT_PATH) > /dev/null
-#	@echo "$(RED)Cleaning pipex...$(NC)"
-#
-#fclean: clean
-#	@$(RM) $(NAME)
-#	@$(RM) -r $(OBJ_DIR)
-#	@$(MAKE) fclean -C $(LIBFT_PATH) > /dev/null
-#
-#re: fclean all
-#
-#debug: CFLAGS += $(DFLAGS)
-#debug: re
-#
-#.PHONY: all clean fclean re
+.SILENT:
