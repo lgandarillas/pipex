@@ -6,16 +6,16 @@
 #    By: lgandari <lgandari@student.42madrid.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/03 15:20:42 by lgandari          #+#    #+#              #
-#    Updated: 2024/05/12 18:19:48 by lgandari         ###   ########.fr        #
+#    Updated: 2024/05/12 18:22:37 by lgandari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
 NAME_BONUS = pipex_bonus
 
-RED		=	\033[91;1m
-GREEN	=	\033[92;1m
-NC		=	\033[0m
+RED	= \033[0;31m
+GREEN	= \033[0;32m
+NC	= \033[0m 
 
 CFLAGS = -Wall -Werror -Wextra -g3 #-fsanitize=address
 CC = cc
@@ -46,7 +46,7 @@ $(NAME) : $(OBJS)
 	@echo "$(GREEN)Pipex Compiled.$(NC)"
 
 $(NAME_BONUS) : $(OBJS_BONUS)
-	@make all -sC ./libft
+	@make all -sC ./libft_v2
 	@echo "$(GREEN)Compiling Libft.$(NC)"
 	@$(CC) $(CFLAGS) $(OBJS_BONUS) -I ../../inc/pipex.h $(LIBFT) -o $(NAME_BONUS)
 	@echo "$(GREEN)Pipex Bonus Compiled.$(NC)"
