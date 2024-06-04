@@ -37,19 +37,22 @@ echo $?
 ./pipex /dev/urandom "cat" "head" out
 < /dev/urandom cat | head > out
 
-## CORRECT TESTS
+## HERE DOC
+./pipex_bonus here_doc LIMIT "cat" "wc" outfile
+cat << LIMIT | wc > outfile
+
+## SOME CORRECT TESTS
 ./pipex infile "ls -l" "wc -l" outfile
 ./pipex Makefile "grep LIBFT" "cat" outfile
 ./pipex infile "ls" "wc" outfile
 ./pipex .gitignore "tr a b" "tr b c" outfile
 ./pipex .gitignore "ping -c 1 google.com" "grep ms" outfile
 
-## INCORRECT TESTS
+## SOME INCORRECT TESTS
 ./pipex infile.txt "cat" outfile.txt "wc -w"
 ./pipex a b
 ./pipex a b c d e
 chmod 000 infile.txt / outfile.txt y cualquier test correcto
 
 ## LEAKS
-make debug
 valgrind ./pipex infile.txt "ls" "wc" outfile.txt
