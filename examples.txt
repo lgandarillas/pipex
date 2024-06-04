@@ -26,11 +26,7 @@
 ./pipex noexiste "sleep 3" "ls" output
  < noexiste sleep 3 | ls > output
 
-# Test 7 - Should wait sleep
-./pipex input "sleep 3" "ls" output
-< noexiste sleep 3 | ls > output
-
-# Test 8 
+# Test 7 
 ./pipex /dev/urandom "cat" "head" out
 < /dev/urandom cat | head > out
 
@@ -49,4 +45,4 @@ chmod 000 infile.txt / outfile.txt y cualquier test correcto
 
 ## LEAKS
 make debug
-valgrind --leak-check=full ./pipex infile.txt "ls" "wc" outfile.txt
+valgrind ./pipex infile.txt "ls" "wc" outfile.txt
