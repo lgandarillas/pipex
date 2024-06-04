@@ -1,5 +1,12 @@
 ### PIPEX EXECUTION EXAMPLES
 
+## VER ENV
+env | grep PATH
+which cat
+
+## VER EXITCODE
+echo $?
+
 ## BASIC TESTS
 
 # Test 1 - Should create the file
