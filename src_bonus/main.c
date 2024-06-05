@@ -6,7 +6,7 @@
 /*   By: lgandari <lgandari@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:39:12 by lgandari          #+#    #+#             */
-/*   Updated: 2024/06/05 21:56:02 by lgandari         ###   ########.fr       */
+/*   Updated: 2024/06/05 22:05:37 by lgandari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,10 @@ int	main(int argc, char **argv, char **env)
 		close(fd2);
 		pid = fork();
 		if (pid == 0)
+		{
 			execute_command(argv[argc - 2], env);
+			exit(EXIT_SUCCESS);
+		}
 		while ((pid = wait(&status)) > 0);
-		execute_command(argv[argc - 2], env);
 	}
 }
