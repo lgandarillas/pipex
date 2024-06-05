@@ -6,7 +6,7 @@
 /*   By: lgandari <lgandari@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:39:12 by lgandari          #+#    #+#             */
-/*   Updated: 2024/06/05 15:03:22 by lgandari         ###   ########.fr       */
+/*   Updated: 2024/06/05 21:52:27 by lgandari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	pipex(char *cmd, char **env)
 {
 	int		fd[2];
 	pid_t	pid;
-	int		status;
 
 	if (pipe(fd) < 0)
 		print_error("Pipe creation failed.\n", 1);
@@ -34,7 +33,6 @@ void	pipex(char *cmd, char **env)
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
-		waitpid(-1, &status, 0);
 	}
 }
 
@@ -66,9 +64,11 @@ int	open_files(int argc, char **argv, int *fd1, int *fd2)
 
 int	main(int argc, char **argv, char **env)
 {
-	int	fd1;
-	int	fd2;
-	int	i;
+	int		fd1;
+	int		fd2;
+	int		i;
+	int		status;
+	pid_t	pid;
 
 	if (argc < 5)
 		print_error("Invalid arguments.\n", 1);
@@ -79,6 +79,10 @@ int	main(int argc, char **argv, char **env)
 			pipex(argv[i++], env);
 		dup2(fd2, STDOUT_FILENO);
 		close(fd2);
+		pid = fork();
+		if (pid == 0)
+			execute_command(argv[argc - 2], env);
+		while ((pid = wait(&status)) > 0);
 		execute_command(argv[argc - 2], env);
 	}
 }
