@@ -6,7 +6,7 @@
 /*   By: lgandari <lgandari@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:39:12 by lgandari          #+#    #+#             */
-/*   Updated: 2024/06/05 21:52:27 by lgandari         ###   ########.fr       */
+/*   Updated: 2024/06/05 21:56:02 by lgandari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	open_files(int argc, char **argv, int *fd1, int *fd2)
 		i++;
 		*fd2 = open(argv[argc - 1], O_RDWR | O_CREAT | O_APPEND, 0644);
 		if (*fd2 < 0 || access(argv[argc - 1], W_OK | R_OK) < 0)
-			print_error("Failed to open or access infile.\n", -1);
+			print_error("No such file or directory.\n", -1);
 		here_doc(argv[2]);
 	}
 	else
@@ -55,7 +55,7 @@ int	open_files(int argc, char **argv, int *fd1, int *fd2)
 		*fd2 = open(argv[argc - 1], O_RDWR | O_CREAT | O_TRUNC, 0644);
 		if (*fd1 < 0 || *fd2 < 0 || access(argv[1], R_OK) < 0 \
 			|| access(argv[argc - 1], W_OK | R_OK) < 0)
-			print_error("Failed to open or access infile.\n", -1);
+			print_error("No such file or directory.\n", -1);
 		dup2(*fd1, STDIN_FILENO);
 		close(*fd1);
 	}
