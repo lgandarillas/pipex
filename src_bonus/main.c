@@ -6,7 +6,7 @@
 /*   By: lgandari <lgandari@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:39:12 by lgandari          #+#    #+#             */
-/*   Updated: 2024/06/05 22:05:37 by lgandari         ###   ########.fr       */
+/*   Updated: 2024/06/05 22:28:08 by lgandari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,10 @@ int	open_files(int argc, char **argv, int *fd1, int *fd2)
 	{
 		*fd1 = open(argv[1], O_RDONLY, 0644);
 		*fd2 = open(argv[argc - 1], O_RDWR | O_CREAT | O_TRUNC, 0644);
-		if (*fd1 < 0 || *fd2 < 0 || access(argv[1], R_OK) < 0 \
-			|| access(argv[argc - 1], W_OK | R_OK) < 0)
-			print_error("No such file or directory.\n", -1);
+		if (*fd1 < 0 || access(argv[1], R_OK) < 0)
+			return (ft_putstr_fd("No such file or directory.\n", STDERR_FILENO), -1);
+		if (*fd2 < 0 || access(argv[argc - 1], W_OK | R_OK) < 0)
+			print_error("No such file or directory.\n", 1);
 		dup2(*fd1, STDIN_FILENO);
 		close(*fd1);
 	}
@@ -75,10 +76,15 @@ int	main(int argc, char **argv, char **env)
 	else
 	{
 		i = open_files(argc, argv, &fd1, &fd2);
-		while (i < argc - 2)
-			pipex(argv[i++], env);
-		dup2(fd2, STDOUT_FILENO);
-		close(fd2);
+		if (i < 0)
+			i = 2;
+		else
+		{
+			while (i < argc - 2)
+				pipex(argv[i++], env);
+			dup2(fd2, STDOUT_FILENO);
+			close(fd2);
+		}
 		pid = fork();
 		if (pid == 0)
 		{
