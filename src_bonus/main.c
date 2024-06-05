@@ -6,7 +6,7 @@
 /*   By: lgandari <lgandari@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:39:12 by lgandari          #+#    #+#             */
-/*   Updated: 2024/06/05 09:33:07 by lgandari         ###   ########.fr       */
+/*   Updated: 2024/06/05 09:41:12 by lgandari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,11 @@ void	pipex(char *cmd, char **env)
 	}
 }
 
-void	open_files(int argc, char **argv, int *fd1, int *fd2)
+int	open_files(int argc, char **argv, int *fd1, int *fd2)
 {
+	int	i;
+
+	i = 2;
 	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
 	{
 		i++;
@@ -58,6 +61,7 @@ void	open_files(int argc, char **argv, int *fd1, int *fd2)
 		dup2(*fd1, STDIN_FILENO);
 		close(*fd1);
 	}
+	return (i);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -70,8 +74,7 @@ int	main(int argc, char **argv, char **env)
 		print_error("Invalid arguments.\n", 1);
 	else
 	{
-		open_files(argc, argv, &fd1, &fd2);
-		i = 2;
+		i = open_files(argc, argv, &fd1, &fd2);
 		while (i < argc - 2)
 			pipex(argv[i++], env);
 		dup2(fd2, STDOUT_FILENO);
