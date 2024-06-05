@@ -6,13 +6,13 @@
 /*   By: lgandari <lgandari@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:43:57 by lgandari          #+#    #+#             */
-/*   Updated: 2024/04/14 16:45:12 by lgandari         ###   ########.fr       */
+/*   Updated: 2024/06/05 09:35:25 by lgandari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex.h"
 
-void	get_line(int *fd, char *delimiter)
+void	get_lines(int *fd, char *delimiter)
 {
 	char	*line;
 
@@ -43,7 +43,7 @@ void	here_doc(char *delimiter)
 	else if (pid == 0)
 	{
 		write(1, "pipe heredoc> ", 14);
-		get_line(fd, delimiter);
+		get_lines(fd, delimiter);
 	}
 	else
 	{
