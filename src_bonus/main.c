@@ -6,7 +6,7 @@
 /*   By: lgandari <lgandari@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:39:12 by lgandari          #+#    #+#             */
-/*   Updated: 2024/06/05 09:41:12 by lgandari         ###   ########.fr       */
+/*   Updated: 2024/06/05 15:03:22 by lgandari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	open_files(int argc, char **argv, int *fd1, int *fd2)
 	int	i;
 
 	i = 2;
-	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
+	if (ft_strncmp(argv[1], "here_doc\0", 9) == 0)
 	{
 		i++;
 		*fd2 = open(argv[argc - 1], O_RDWR | O_CREAT | O_APPEND, 0644);
