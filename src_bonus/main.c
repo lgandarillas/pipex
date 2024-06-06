@@ -6,7 +6,7 @@
 /*   By: lgandari <lgandari@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:39:12 by lgandari          #+#    #+#             */
-/*   Updated: 2024/06/06 22:41:17 by lgandari         ###   ########.fr       */
+/*   Updated: 2024/06/06 22:59:04 by lgandari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static int	open_files(int argc, char **argv, int *fd1, int *fd2)
 		{
 			ft_putstr_fd("No such file or directory.\n", STDERR_FILENO);
 			dup2(open("/dev/null", O_RDONLY), STDIN_FILENO);
+			return (-1);
 		}
 			//return (ft_putstr_fd("No such file or directory.\n",
 			//		STDERR_FILENO), -1);
@@ -84,7 +85,7 @@ int	main(int argc, char **argv, char **env)
 	{
 		i = open_files(argc, argv, &fd1, &fd2);
 		if (i < 0)
-			i = 2;
+			i = 3;
 		else
 		{
 			while (i < argc - 2)
