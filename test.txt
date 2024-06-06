@@ -1,0 +1,89 @@
+# PIPEX EXECUTION EXAMPLES
+
+## VER ENV
+env
+env | grep PATH
+which cat
+
+## VER EXITCODE
+echo $?
+
+## BASIC TESTS
+
+<noexiste grep hello | wc  > output
+./pipex noexiste "grep hello" "wc" output
+
+<input ls | ls > output
+./pipex input "ls" "ls" output
+
+<input grep hello | wc > output
+./pipex input "grep hello" "wc" output
+
+< noexiste grep hello | sleep 3 > output
+./pipex noexiste "grep hello" "sleep 3" output
+
+< input grep hello | sleep 3 > output
+./pipex input "grep hello" "sleep 3" output
+
+< noexiste sleep 3 | ls > output
+./pipex noexiste "sleep 3" "ls" output
+
+< input sleep 3 | ls > output
+./pipex input "sleep 3" "ls" output
+
+< /dev/urandom cat | head > out
+./pipex /dev/urandom "cat" "head" out
+
+< /dev/urandom grep | head > out
+./pipex /dev/urandom "grep" "head" out
+
+< /dev/urandom grep entrada | head > out
+./pipex /dev/urandom "grep entrada" "head" out 
+
+< noexiste grep | ls -lta > out
+./pipex noexiste "grep" "ls -lta" out
+
+< noexiste ls | ls -lta > out
+./pipex noexiste "ls" "ls -lta" out
+
+< noexiste ls | asdfasdf > out
+./pipex noexiste "ls" "asdfasdf" out
+
+< noexiste asdfasdf | ls > out
+./pipex noexiste "asdfasdf" "ls" out
+
+< input ls | asdfasdf > out
+./pipex input "ls" "asdfasdf" out
+
+< input asdfasdf | ls > out
+./pipex input "asdfasdf" "ls" out
+
+ls << FIN | wc >> out
+./pipex here\_doc FIN ls wc out
+
+ls << FIN | wc -l >> out
+./pipex here\_doc FIN ls "wc -l" out
+
+cat << FIN | ls >> out
+./pipex here\_doc FIN cat ls out
+
+cat << FIN | wc >> out
+./pipex here\_doc FIN cat wc out
+
+cat << FIN | grep hola >> out
+./pipex here\_doc FIN cat "grep hola" out
+
+ls << FIN | sleep 3 >> out
+./pipex here\_doc FIN ls "sleep 3" out
+
+sleep 3 << FIN | ls >> out
+./pipex here\_doc FIN "sleep 3" ls out
+
+asdfasdf << FIN | wc >> out
+./pipex here\_doc FIN asdfasdf wc out
+
+ls << FIN | asdf >> out
+./pipex here\_doc FIN ls asdf out
+
+asdf << FIN | asdddf out
+./pipex here\_doc FIN asdf asddf out
