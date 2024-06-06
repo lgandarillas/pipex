@@ -6,13 +6,13 @@
 /*   By: lgandari <lgandari@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:39:12 by lgandari          #+#    #+#             */
-/*   Updated: 2024/06/06 22:10:49 by lgandari         ###   ########.fr       */
+/*   Updated: 2024/06/06 22:14:45 by lgandari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex.h"
 
-void	pipex(char *cmd, char **env)
+static void	pipex(char *cmd, char **env)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -36,7 +36,7 @@ void	pipex(char *cmd, char **env)
 	}
 }
 
-int	open_files(int argc, char **argv, int *fd1, int *fd2)
+static int	open_files(int argc, char **argv, int *fd1, int *fd2)
 {
 	int	i;
 

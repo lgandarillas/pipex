@@ -6,13 +6,13 @@
 /*   By: lgandari <lgandari@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:43:57 by lgandari          #+#    #+#             */
-/*   Updated: 2024/06/05 09:35:25 by lgandari         ###   ########.fr       */
+/*   Updated: 2024/06/06 22:15:10 by lgandari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex.h"
 
-void	get_lines(int *fd, char *delimiter)
+static void	get_lines(int *fd, char *delimiter)
 {
 	char	*line;
 

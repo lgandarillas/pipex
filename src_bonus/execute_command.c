@@ -6,7 +6,7 @@
 /*   By: lgandari <lgandari@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 12:33:57 by lgandari          #+#    #+#             */
-/*   Updated: 2024/04/14 19:17:43 by lgandari         ###   ########.fr       */
+/*   Updated: 2024/06/06 22:17:33 by lgandari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	print_error(char *msg, int exit_code)
 	exit(exit_code);
 }
 
-void	free_split(char **split)
+static void	free_split(char **split)
 {
 	int	i;
 
@@ -31,7 +31,7 @@ void	free_split(char **split)
 	free(split);
 }
 
-int	get_path_index(char **env)
+static int	get_path_index(char **env)
 {
 	int	i;
 
@@ -46,7 +46,7 @@ int	get_path_index(char **env)
 	return (print_error("Path not found.\n", 127));
 }
 
-char	*get_path(char *cmd, char **env)
+static char	*get_path(char *cmd, char **env)
 {
 	char	**directories;
 	char	*path;
