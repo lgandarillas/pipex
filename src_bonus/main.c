@@ -6,7 +6,7 @@
 /*   By: lgandari <lgandari@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:39:12 by lgandari          #+#    #+#             */
-/*   Updated: 2024/06/06 22:14:45 by lgandari         ###   ########.fr       */
+/*   Updated: 2024/06/06 22:41:17 by lgandari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,12 @@ static int	open_files(int argc, char **argv, int *fd1, int *fd2)
 		*fd1 = open(argv[1], O_RDONLY, 0644);
 		*fd2 = open(argv[argc - 1], O_RDWR | O_CREAT | O_TRUNC, 0644);
 		if (*fd1 < 0 || access(argv[1], R_OK) < 0)
-			return (ft_putstr_fd("No such file or directory.\n",
-					STDERR_FILENO), -1);
+		{
+			ft_putstr_fd("No such file or directory.\n", STDERR_FILENO);
+			dup2(open("/dev/null", O_RDONLY), STDIN_FILENO);
+		}
+			//return (ft_putstr_fd("No such file or directory.\n",
+			//		STDERR_FILENO), -1);
 		if (*fd2 < 0 || access(argv[argc - 1], W_OK | R_OK) < 0)
 			print_error("No such file or directory.\n", 1);
 		dup2(*fd1, STDIN_FILENO);
