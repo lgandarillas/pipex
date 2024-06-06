@@ -27,21 +27,24 @@ echo $?
 ./pipex noexiste "grep hello" "sleep 3" output
 
 5. OK
-< input grep hello | sleep 3 > output
-./pipex input "grep hello" "sleep 3" output
+< input grep hello | sleep 3 > /dev/stdout
+./pipex input "grep hello" "sleep 3" /dev/stdout
 
+6. OK
+< noexiste sleep 3 | ls > /dev/stdout
+./pipex noexiste "sleep 3" "ls" /dev/stdout
 
-< noexiste sleep 3 | ls > output
-./pipex noexiste "sleep 3" "ls" output
+7. OK
+< infile sleep 3 | ls > /dev/stdout
+./pipex infile "sleep 3" "ls" /dev/stdout
 
-< input sleep 3 | ls > output
-./pipex input "sleep 3" "ls" output
+8. ?
+< /dev/urandom cat | head > /dev/stdout
+./pipex /dev/urandom "cat" "head" /dev/stdout
 
-< /dev/urandom cat | head > out
-./pipex /dev/urandom "cat" "head" out
-
-< /dev/urandom grep | head > out
-./pipex /dev/urandom "grep" "head" out
+9. OK
+< /dev/urandom grep | head > /dev/stdout
+./pipex /dev/urandom "grep" "head" /dev/stdout
 
 < /dev/urandom grep entrada | head > out
 ./pipex /dev/urandom "grep entrada" "head" out 
