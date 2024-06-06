@@ -6,7 +6,7 @@
 /*   By: lgandari <lgandari@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:39:12 by lgandari          #+#    #+#             */
-/*   Updated: 2024/06/06 22:00:38 by lgandari         ###   ########.fr       */
+/*   Updated: 2024/06/06 22:10:49 by lgandari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ int	main(int argc, char **argv, char **env)
 	int		i;
 	int		status;
 	pid_t	pid;
+	int		last_exitcode;
 
+	last_exitcode = 0;
 	if (argc < 5)
 		print_error("Invalid arguments.\n", 1);
 	else
@@ -97,6 +99,9 @@ int	main(int argc, char **argv, char **env)
 			pid = wait(&status);
 			if (pid <= 0)
 				break ;
+			if (WIFEXITED(status))
+				last_exitcode = WEXITSTATUS(status);
 		}
 	}
+	return (last_exitcode);
 }
