@@ -10,20 +10,26 @@ echo $?
 
 ## BASIC TESTS
 
-<noexiste grep hello | wc  > output
-./pipex noexiste "grep hello" "wc" output
+1. OK
+<noexiste grep hello | wc  > /dev/stdout
+./pipex noexiste "grep hello" "wc" /dev/stdout
 
-<input ls | ls > output
-./pipex input "ls" "ls" output
+2. OK
+<input ls | ls > /dev/stdout
+./pipex input "ls" "ls" /dev/stdout
 
-<input grep hello | wc > output
-./pipex input "grep hello" "wc" output
+3. OK
+<input grep hello | wc > /dev/stdout
+./pipex input "grep hello" "wc" /dev/stdout
 
+4. OK
 < noexiste grep hello | sleep 3 > output
 ./pipex noexiste "grep hello" "sleep 3" output
 
+5. OK
 < input grep hello | sleep 3 > output
 ./pipex input "grep hello" "sleep 3" output
+
 
 < noexiste sleep 3 | ls > output
 ./pipex noexiste "sleep 3" "ls" output
