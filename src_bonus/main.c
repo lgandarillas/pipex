@@ -6,7 +6,7 @@
 /*   By: lgandari <lgandari@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:39:12 by lgandari          #+#    #+#             */
-/*   Updated: 2024/06/06 22:59:04 by lgandari         ###   ########.fr       */
+/*   Updated: 2024/06/09 21:26:34 by lgandari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	pipex(char *cmd, char **env)
 	else if (pid == 0)
 	{
 		dup2(fd[1], STDOUT_FILENO);
+		close(fd[0]);
 		close(fd[1]);
 		execute_command(cmd, env);
 	}
@@ -59,8 +60,6 @@ static int	open_files(int argc, char **argv, int *fd1, int *fd2)
 			dup2(open("/dev/null", O_RDONLY), STDIN_FILENO);
 			return (-1);
 		}
-			//return (ft_putstr_fd("No such file or directory.\n",
-			//		STDERR_FILENO), -1);
 		if (*fd2 < 0 || access(argv[argc - 1], W_OK | R_OK) < 0)
 			print_error("No such file or directory.\n", 1);
 		dup2(*fd1, STDIN_FILENO);

@@ -6,7 +6,7 @@
 /*   By: lgandari <lgandari@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:43:57 by lgandari          #+#    #+#             */
-/*   Updated: 2024/06/06 22:15:10 by lgandari         ###   ########.fr       */
+/*   Updated: 2024/06/09 21:13:36 by lgandari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,10 @@ void	here_doc(char *delimiter)
 		exit(EXIT_FAILURE);
 	else if (pid == 0)
 	{
+		close(fd[0]);
 		write(1, "pipe heredoc> ", 14);
 		get_lines(fd, delimiter);
+		close(fd[1]);
 	}
 	else
 	{
