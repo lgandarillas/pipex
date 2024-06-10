@@ -6,7 +6,7 @@
 /*   By: lgandari <lgandari@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:39:12 by lgandari          #+#    #+#             */
-/*   Updated: 2024/06/10 19:48:11 by lgandari         ###   ########.fr       */
+/*   Updated: 2024/06/10 20:05:50 by lgandari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,32 +80,29 @@ int	main(int argc, char **argv, char **env)
 	last_exitcode = 0;
 	if (argc < 5)
 		print_error("Invalid arguments.\n", 1);
+	i = open_files(argc, argv, &fd1, &fd2);
+	if (i < 0)
+		i = 3;
 	else
 	{
-		i = open_files(argc, argv, &fd1, &fd2);
-		if (i < 0)
-			i = 3;
-		else
-		{
-			while (i < argc - 2)
-				pipex(argv[i++], env);
-			dup2(fd2, STDOUT_FILENO);
-			close(fd2);
-		}
-		pid = fork();
-		if (pid == 0)
-		{
-			execute_command(argv[argc - 2], env);
-			exit(EXIT_SUCCESS);
-		}
-		while (1)
-		{
-			pid = wait(&status);
-			if (pid <= 0)
-				break ;
-			if (WIFEXITED(status))
-				last_exitcode = WEXITSTATUS(status);
-		}
+		while (i < argc - 2)
+			pipex(argv[i++], env);
+		dup2(fd2, STDOUT_FILENO);
+		close(fd2);
+	}
+	pid = fork();
+	if (pid == 0)
+	{
+		execute_command(argv[argc - 2], env);
+		exit(EXIT_SUCCESS);
+	}
+	while (1)
+	{
+		pid = wait(&status);
+		if (pid <= 0)
+			break ;
+		if (WIFEXITED(status))
+			last_exitcode = WEXITSTATUS(status);
 	}
 	return (last_exitcode);
 }
