@@ -6,7 +6,7 @@
 #    By: lgandari <lgandari@student.42madrid.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 15:29:18 by lgandari          #+#    #+#              #
-#    Updated: 2024/03/08 20:18:37 by lgandari         ###   ########.fr        #
+#    Updated: 2024/06/07 13:12:47 by lgandari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ NAME        = libft_v2.a
 LIBFT_DIR   = libft/
 GNL_DIR     = get_next_line/
 PRINTF_DIR  = ft_printf/
+EXTRA_DIR	= extra/
 OBJ_DIR     = obj/
 INC_DIR     = inc/
 
@@ -43,17 +44,24 @@ GNL_SRCS = $(addprefix $(GNL_DIR), \
 PRINTF_SRCS = $(addprefix $(PRINTF_DIR), \
 		ft_printf.c ft_printf_putnbr.c ft_printf_utils.c)
 
-OBJ_LIBFT = $(addprefix $(OBJ_DIR), $(LIBFT_SRCS:$(LIBFT_DIR)%.c=%.o))
-OBJ_GNL = $(addprefix $(OBJ_DIR), $(GNL_SRCS:$(GNL_DIR)%.c=%.o))
-OBJ_PRINTF = $(addprefix $(OBJ_DIR), $(PRINTF_SRCS:$(PRINTF_DIR)%.c=%.o))
+EXTRA_SRCS	= $(addprefix $(EXTRA_DIR), ft_strcmp.c)
 
-OBJ = $(OBJ_LIBFT) $(OBJ_GNL) $(OBJ_PRINTF)
+OBJ_LIBFT	= $(addprefix $(OBJ_DIR), $(LIBFT_SRCS:$(LIBFT_DIR)%.c=%.o))
+OBJ_GNL		= $(addprefix $(OBJ_DIR), $(GNL_SRCS:$(GNL_DIR)%.c=%.o))
+OBJ_PRINTF	= $(addprefix $(OBJ_DIR), $(PRINTF_SRCS:$(PRINTF_DIR)%.c=%.o))
+OBJ_EXTRA	= $(addprefix $(OBJ_DIR), $(EXTRA_SRCS:$(EXTRA_DIR)%.c=%.o))
+
+OBJ = $(OBJ_LIBFT) $(OBJ_GNL) $(OBJ_PRINTF) $(OBJ_EXTRA)
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
-IFLAGS = -I$(INC_DIR) -I$(INC_DIR)libft -I$(INC_DIR)get_next_line -I$(INC_DIR)ft_printf
 
-TOTAL_FILES  := $(words $(LIBFT_SRCS) $(GNL_SRCS) $(PRINTF_SRCS))
+CFLAGS = -Wall -Wextra -Werror
+DFLAGS = -g3 -fsanitize=address
+
+IFLAGS = -I$(INC_DIR) -I$(INC_DIR)libft -I$(INC_DIR)get_next_line \
+		 -I$(INC_DIR)ft_printf -I$(INC_DIR)extra
+
+TOTAL_FILES  := $(words $(LIBFT_SRCS) $(GNL_SRCS) $(PRINTF_SRCS) $(EXTRA_SRCS))
 CURRENT_FILE := 0
 
 define progress_bar
@@ -79,6 +87,12 @@ $(OBJ_DIR)%.o: $(PRINTF_DIR)%.c
 		$(call progress_bar,$(shell echo $$(($(CURRENT_FILE) + 1))))
 		@$(eval CURRENT_FILE=$(shell echo $$(($(CURRENT_FILE) + 1))))
 
+$(OBJ_DIR)%.o: $(EXTRA_DIR)%.c
+		@mkdir -p $(dir $@)
+		@$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
+		$(call progress_bar,$(shell echo $$(($(CURRENT_FILE) + 1))))
+		@$(eval CURRENT_FILE=$(shell echo $$(($(CURRENT_FILE) + 1))))
+
 all: $(LIBNAME)
 
 $(LIBNAME): $(OBJ)
@@ -93,5 +107,8 @@ fclean: clean
 		@$(RM) $(LIBNAME)
 
 re: fclean all
+
+debug: CFLAGS +=$(DFLAGS)
+debug: all
 
 .PHONY: all clean fclean re
