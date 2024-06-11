@@ -1,35 +1,36 @@
 # Pipex
 ## 1. Overview
-Pipex is a project of the 42 School Common Core Rank 02. It simulates the behavior of pipes in a shell with file redirection and command execution throuch pipes.
+Pipex is a project from the 42 School Common Core Rank 02. It simulates the behavior of pipes in a shell, including file redirection and command execution through pipes.
 
 ## 2. How it Works
-To compile the project, use the provided Makefile. Separate compilation targets are available for the main project and the bonus features.
+To compile the project, use the provided Makefile. There are separate compilation targets for the main project and the bonus features.
 
 ### 2.1 Main Project
-This is compiled using **make**.
+Compile the main project using:
 ```bash
 make
 ```
-It includes the core functionality of Pipex. Pipex takes four arguments, it executes command1 with infile as input and directs its output to command2, whose output is then redirected to outfile.
+This includes the core functionality of Pipex. Pipex takes four arguments, executes command1 with infile as input, and directs its output to command2, whose output is then redirected to outfile.
+Usage:
 ```bash
 ./pipex infile command1 command2 outfile
 ```
-Essentially, it mimics the behavior of:
+This mimics the behavior of the shell command:
 ```bash
 < infile command1 | command2 > outfile shell command.
 ```
 
 ### 2.2 Bonus Features
-The bonus features are compiled using **make bonus**.
+Compile the bonus features using:
 ```bash
 make bonus
 ```
-It includes additional functionalities such as managing multiple pipes and accepting << and >> operators for input and output redirection.
+The bonus version includes additional functionalities such as managing multiple pipes and accepting << and >> operators for input and output redirection.
 ```bash
 ./pipex_bonus infile command1 command2 ... commandN outfile
 ./pipex_bonus here_doc DEL command1 command2 commandN outfile
 ```
-Essentially, it mimics the behavior of:
+Usage:
 ```bash
 < infile command1 | command2 | ... | commandN > outfile
 << DEL command1 | command2 | ... | commandN >> outfile
