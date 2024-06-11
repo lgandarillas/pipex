@@ -8,12 +8,10 @@ which cat
 ## VER EXITCODE
 echo $?
 
-## BASIC TESTS
-
+## BASIC TESTS (pipex)
 1. OK
 <noexiste grep hello | wc  > /dev/stdout
 ./pipex noexiste "grep hello" "wc" /dev/stdout
-
 2. OK
 <input ls | ls > /dev/stdout
 ./pipex input "ls" "ls" /dev/stdout
@@ -38,7 +36,7 @@ echo $?
 < infile sleep 3 | ls > /dev/stdout
 ./pipex infile "sleep 3" "ls" /dev/stdout
 
-8. ?
+8. OK
 < /dev/urandom cat | head > /dev/stdout
 ./pipex /dev/urandom "cat" "head" /dev/stdout
 
@@ -46,53 +44,66 @@ echo $?
 < /dev/urandom grep | head > /dev/stdout
 ./pipex /dev/urandom "grep" "head" /dev/stdout
 
-< /dev/urandom grep entrada | head > out
-./pipex /dev/urandom "grep entrada" "head" out 
+10. OK
+< noexiste grep | ls -lta > /dev/stdout
+./pipex noexiste "grep" "ls -lta" /dev/stdout
 
-< noexiste grep | ls -lta > out
-./pipex noexiste "grep" "ls -lta" out
+11. OK
+< noexiste ls | ls -lta > /dev/stdout
+./pipex noexiste "ls" "ls -lta" /dev/stdout
 
-< noexiste ls | ls -lta > out
-./pipex noexiste "ls" "ls -lta" out
+12. OK
+< noexiste ls | asdfasdf > /dev/stdout
+./pipex noexiste "ls" "asdfasdf" /dev/stdout
 
-< noexiste ls | asdfasdf > out
-./pipex noexiste "ls" "asdfasdf" out
+13. OK
+< noexiste asdfasdf | ls > /dev/stdout
+./pipex noexiste "asdfasdf" "ls" /dev/stdout
 
-< noexiste asdfasdf | ls > out
-./pipex noexiste "asdfasdf" "ls" out
+14. OK
+< input ls | asdfasdf > /dev/stdout
+./pipex input "ls" "asdfasdf" /dev/stdout
 
-< input ls | asdfasdf > out
-./pipex input "ls" "asdfasdf" out
+15. OK
+< input asdfasdf | ls > /dev/stdout
+./pipex input "asdfasdf" "ls" /dev/stdout
 
-< input asdfasdf | ls > out
-./pipex input "asdfasdf" "ls" out
+16. ERROR
+ls << DEL | wc >> /dev/stdout
+./pipex_bonus here_doc DEL ls wc /dev/stdout
 
-ls << FIN | wc >> out
-./pipex here\_doc FIN ls wc out
+17. ERROR
+ls << DEL | wc -l >> /dev/stdout
+./pipex_bonus here_doc DEL ls "wc -l" /dev/stdout
 
-ls << FIN | wc -l >> out
-./pipex here\_doc FIN ls "wc -l" out
+18. ERROR
+cat << DEL | ls >> /dev/stdout
+./pipex_bonus here_doc DEL cat ls /dev/stdout
 
-cat << FIN | ls >> out
-./pipex here\_doc FIN cat ls out
+19. ERROR
+cat << DEL | wc >> /dev/stdout
+./pipex_bonus here_doc DEL cat wc /dev/stdout
 
-cat << FIN | wc >> out
-./pipex here\_doc FIN cat wc out
+20. ERROR
+cat << DEL | grep hola >> /dev/stdout
+./pipex_bonus here_doc DEL cat "grep hola" /dev/stdout
 
-cat << FIN | grep hola >> out
-./pipex here\_doc FIN cat "grep hola" out
+21. ERROR
+ls << DEL | sleep 3 >> /dev/stdout
+./pipex_bonus here_doc DEL ls "sleep 3" /dev/stdout
 
-ls << FIN | sleep 3 >> out
-./pipex here\_doc FIN ls "sleep 3" out
+22. ERROR
+sleep 3 << DEL | ls >> /dev/stdout
+./pipex_bonus here_doc DEL "sleep 3" ls /dev/stdout
 
-sleep 3 << FIN | ls >> out
-./pipex here\_doc FIN "sleep 3" ls out
+23. ERROR
+asdfasdf << DEL | wc >> /dev/stdout
+./pipex_bonus here_doc DEL asdfasdf wc /dev/stdout
 
-asdfasdf << FIN | wc >> out
-./pipex here\_doc FIN asdfasdf wc out
+24. ERROR
+ls << DEL | asdf >> /dev/stdout
+./pipex_bonus here\_doc DEL ls asdf /dev/stdout
 
-ls << FIN | asdf >> out
-./pipex here\_doc FIN ls asdf out
-
-asdf << FIN | asdddf out
-./pipex here\_doc FIN asdf asddf out
+25. ERROR
+asdf << DEL | asdddf /dev/stdout
+./pipex_bonus here_doc DEL asdf asddf /dev/stdout
